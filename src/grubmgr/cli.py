@@ -8,10 +8,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="grubmgr", description="Grub manager")
     sub = parser.add_subparsers(dest="command", metavar="<command>")
 
-    p = sub.add_parser("config", help="Modifica la config de GRUB (/etc/default/grub)")
+    p = sub.add_parser("config", help="Ver o modificar la config de GRUB (/etc/default/grub)")
+    p.add_argument("assignments", nargs="*", metavar="KEY=VALUE")
+    p.add_argument("--unset", action="append", metavar="KEY")
     p.set_defaults(func=config.run)
 
-    p = sub.add_parser("theme", help="Cambiar el theme activo")
+    p = sub.add_parser("themes", aliases=["theme"], help="Listar themes o aplicar uno")
     p.add_argument("theme", nargs="?", help="Nombre del theme (si se omite, lista)")
     p.set_defaults(func=themes.run)
 
@@ -23,7 +25,8 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("theme")
     p.set_defaults(func=remove.run)
 
-    return parser;
+    return parser
+
 
 def main() -> int:
     parser = build_parser()
@@ -32,8 +35,9 @@ def main() -> int:
     if not hasattr(args, "func"):
         parser.print_help()
         return 1
-    
+
     return args.func(args) or 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
