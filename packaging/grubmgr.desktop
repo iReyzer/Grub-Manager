@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=GRUB Manager
+Comment=Manage GRUB themes and configuration
+Exec=grubmgr-gui
+Icon=preferences-system
+Terminal=false
+Categories=Settings;System;
